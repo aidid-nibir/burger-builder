@@ -1,0 +1,130 @@
+.Cancel {
+    padding: 10px 25px 10px 25px;
+    margin: 0px 10px 0px 10px;
+    background-color: blue;
+    outline: none;
+    cursor: pointer;
+    border: 1px solid #966909;
+    border-radius: 5px;
+}
+
+.Continue {
+    padding: 10px 25px 10px 25px;
+    margin: 0px 10px 0px 10px;
+    background-color: #DAD735;
+    outline: none;
+    cursor: pointer;
+    border: 1px solid #966909;
+    border-radius: 5px;
+}
+
+.btn {
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: black !important;
+    cursor: pointer;
+    padding: 10px 25px 10px 25px;
+    display: inline-block;
+    margin: 0px 10px 0px 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 300;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.btn:after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.btn:before,
+.icon-heart:after,
+.icon-star:after,
+.icon-plus:after,
+.icon-file:before {
+    font-family: 'icomoon';
+    speak-as: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+}
+
+.btn-4 {
+    border-radius: 20px;
+    border: 3px solid #fff;
+    color: #fff;
+    overflow: hidden;
+}
+
+.btn-4:active {
+    border-color: #17954c;
+    color: #17954c;
+}
+
+.btn-4a:hover {
+    background: #24b662;
+}
+
+.btn-4b:hover {
+    background: red;
+}
+
+.btn-4:before {
+    position: absolute;
+    height: 100%;
+    font-size: 125%;
+    line-height: 3.5;
+    color: #fff;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.btn-4:active:before {
+    color: #17954c;
+}
+
+
+/* Button 4a */
+
+.btn-4a {
+    background: lightgreen;
+}
+
+.btn-4b {
+    background: lightcoral;
+}
+
+.btn-4a:before {
+    left: 130%;
+    top: 0;
+}
+
+.btn-4a:hover:before {
+    left: 80%;
+}
+
+
+/* Button 4b */
+
+.btn-4b:before {
+    left: -50%;
+    top: 0;
+}
+
+.btn-4b:hover:before {
+    left: 10%;
+}

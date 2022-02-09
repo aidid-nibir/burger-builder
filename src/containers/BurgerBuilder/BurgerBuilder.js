@@ -7,7 +7,6 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Witherrorhandler from '../../hoc/WithErrorHandler/WithErrorHandler';
 import axios from '../../axios-order';
-
 const INGREDIENT_PRICES = {
     salad: 20,
     cheese: 30,
@@ -17,7 +16,9 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component {
     // constructor(props){
     //     super(props);
-    //     this.state = {}
+    //     useNavigate=()=>{
+    //         return;
+    //     };
     // }
     state = {
         ingredient: null,
@@ -27,6 +28,7 @@ class BurgerBuilder extends Component {
         loading: false,
         error: false
     }
+
     componentDidMount() {
         axios.get('/ingredient.json')
             .then(successCallBack => {
@@ -36,7 +38,9 @@ class BurgerBuilder extends Component {
                 this.setState({ error: true })
             })
     }
-
+    // componentWillUnmount(){
+    //     return true
+    // }
 
     addIngrefientHandler = (type) => {
         const oldCount = this.state.ingredient[type];
@@ -94,30 +98,40 @@ class BurgerBuilder extends Component {
         this.setState({ purchasing: false })
     }
     purchasingContinueHandler = () => {
-        this.setState({ loading: true });
-        const finalOrderData = {
-            ingredients: this.state.ingredient,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'Aidid Nibir',
-                address: {
-                    area: 'Bailey Road',
-                    road: 'Bailey Road',
-                    flat: '15',
-                    house: '32',
-                    email: 'aidid.nibir@gmail.com'
-                }
-            }
+        const queryParams = [];
+        for (let i in this.state.ingredient) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredient[i]));
         }
-        axios.post('/orders.json', finalOrderData)
-            .then(successCallBack => {
-                // console.log(successCallBack)
-                this.setState({ loading: false, purchasing: false });
-            })
-            .catch(errorCallBack => {
-                // console.log(errorCallBack)
-                this.setState({ loading: false, purchasing: false });
-            });
+        queryParams.push('price=' + this.state.totalPrice);
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
+        });
+        // this.setState({ loading: true });
+        // const finalOrderData = {
+        //     ingredients: this.state.ingredient,
+        //     price: this.state.totalPrice,
+        //     customer: {
+        //         name: 'Aidid Nibir',
+        //         address: {
+        //             area: 'Bailey Road',
+        //             road: 'Bailey Road',
+        //             flat: '15',
+        //             house: '32',
+        //             email: 'aidid.nibir@gmail.com'
+        //         }
+        //     }
+        // }
+        // axios.post('/orders.json', finalOrderData)
+        //     .then(successCallBack => {
+        //         // console.log(successCallBack)
+        //         this.setState({ loading: false, purchasing: false });
+        //     })
+        //     .catch(errorCallBack => {
+        //         // console.log(errorCallBack)
+        //         this.setState({ loading: false, purchasing: false });
+        //     });
 
     }
     render() {

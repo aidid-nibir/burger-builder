@@ -7,11 +7,6 @@
     padding: 10px;
     box-shadow: 1px solid #ccc;
 }
-.Input{
-    display: block;
-    margin: 5px auto;
-    padding: 1%;
-}
 @media (min-width: 600px) {
     .ContactData{
         width: 500px;

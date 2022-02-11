@@ -2,65 +2,185 @@ import React, { Component } from 'react';
 import Button from '../../../components/UI/Button/Button';
 import axios from '../../../axios-order';
 import Spinner from '../../../components/UI/Spinner/Spinner'
+import Input from '../../../components/UI/Input/Input';
 import './ContactData.css'
+import { elementType } from 'prop-types';
 class Contactdata extends Component {
     state = {
-        name: '',
-        address: {
-            area: '',
-            road: '',
-            flat: '',
-            house: '',
-            email: ''
+        orderForm: {
+            fullName: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your Name'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 15
+                },
+                valid: false
+            },
+            area: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your Area'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 15
+
+                },
+                valid: false
+            },
+            roadNumber: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: '01'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 2,
+                    maxLength: 15
+                },
+                valid: false
+            },
+            flatNumber: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your Flat Number'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 2,
+                    maxLength: 15
+                },
+                valid: false
+            },
+            houseNumber: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Your House Number'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 2,
+                    maxLength: 15
+                },
+                valid: false
+            },
+            emailAddress: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'email',
+                    placeholder: 'Your Email Address'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 30
+
+                },
+                valid: false
+            }
         },
+        fullFormValidation: false,
         loading: false
     }
     orderHandler = (event) => {
-        // console.log(this.props);
         event.preventDefault();
-        // console.log(this.props.ingredient)
-        // console.log(this.props.price)
         this.setState({ loading: true });
+        const orderFormData = {};
+        for (let orderDataElement in this.state.orderForm) {
+            orderFormData[orderDataElement] = this.state.orderForm[orderDataElement].value;
+        }
         const finalOrderData = {
             ingredients: this.props.ingredient,
             price: this.props.price,
-            customer: {
-                name: 'Aidid Nibir',
-                address: {
-                    area: 'Bailey Road',
-                    road: 'Bailey Road',
-                    flat: '15',
-                    house: '32',
-                    email: 'aidid.nibir@gmail.com'
-                }
-            }
+            orderData: orderFormData
+
         }
         axios.post('/orders.json', finalOrderData)
             .then(successCallBack => {
                 console.log(finalOrderData);
-                // console.log(successCallBack)
                 this.setState({ loading: false, purchasing: false });
                 this.props.history.push('/');
             })
             .catch(errorCallBack => {
-                // console.log(errorCallBack)
                 this.setState({ loading: false, purchasing: false });
             });
     }
-    render() {
-        let form = (<form>
-            <input className='Input' type="text" name="fullName" placeholder='Your Full Name' />
-            <input className='Input' type="text" name="area" placeholder='area' />
-            <input className='Input' type="text" name="road" placeholder="road" />
-            <input className='Input' type="text" name="flat" placeholder="flat" />
-            <input className='Input' type="text" name="house" placeholder="house" />
-            <input className='Input' type="email" name="emalil" placeholder="emalil" />
-            <br />
-            <div>
-                <Button buttonType="btn-4a" clicked={this.orderHandler}>Confirm Order</Button>
-            </div>
+    validationHandler = (value, rules) => {
+        let isValid = false;
+        if ((rules.required)) {
+            isValid = (value.trim() !== '') && isValid;
+        }
+        if (rules.minLength) {
+            isValid = (value.length >= rules.minLength) && (value.length <= rules.maxLength);
+        }
+        // if (rules.maxLength) {
+        //     isValid = (value.length <= rules.maxLength) && isValid;
+        // }
+        return isValid;
+    }
+    inputChangeHandler = (event, inputIdentifier) => {
+        // console.log(event.target.value)
+        const updatedOrderForm = {
+            ...this.state.orderForm
+        }
+        const updatedOrderFormElement = {
+            ...updatedOrderForm[inputIdentifier]
+        }
+        updatedOrderFormElement.value = event.target.value;
+        updatedOrderFormElement.valid = this.validationHandler(updatedOrderFormElement.value, updatedOrderFormElement.validation);
+        updatedOrderForm[inputIdentifier] = updatedOrderFormElement;
+        // console.log(updatedOrderForm);
 
-        </form>);
+        let formIsValid = true;
+        for (let inputIdentifier in updatedOrderForm) {
+            formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
+        }
+        this.setState({ orderForm: updatedOrderForm, fullFormValidation: formIsValid });
+
+    }
+    render() {
+        let orderFormObject = [];
+        for (let key in this.state.orderForm) {
+            orderFormObject.push({
+                id: key,
+                config: this.state.orderForm[key]
+            })
+        }
+        let form = (
+            <form onSubmit={this.orderHandler}>
+                {orderFormObject.map(el => (
+                    <Input
+                        key={el.id}
+                        elementType={el.config.elementType}
+                        elementConfig={el.config.elementConfig}
+                        value={el.config.value}
+                        invalidIndecator={el.config.valid}
+                        changed={(event) => this.inputChangeHandler(event, el.id)}
+                    />
+                ))}
+                <br />
+                <div>
+                    {/* <Button buttonType="btn-4a" clicked={this.orderHandler}>Confirm Order</Button> */}
+                    <Button buttonType="btn-4a" disabled={!this.state.fullFormValidation}>Confirm Order</Button>
+                </div>
+
+            </form>);
         if (this.state.loading) {
             form = <Spinner />;
         }

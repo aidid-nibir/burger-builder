@@ -4,7 +4,6 @@ import axios from '../../../axios-order';
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Input/Input';
 import './ContactData.css'
-import { elementType } from 'prop-types';
 class Contactdata extends Component {
     state = {
         orderForm: {

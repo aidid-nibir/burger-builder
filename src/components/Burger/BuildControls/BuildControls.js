@@ -3,33 +3,33 @@ import './BuildControls.css'
 import BuildControl from './BuildControl/BuildControl'
 
 const controls = [
-    { lable: 'Salad', type: 'salad'},
-    { lable: 'Bacon', type: 'bacon'},
-    { lable: 'Cheese', type: 'cheese'},
-    { lable: 'Meat', type: 'meat'},
+    { lable: 'Salad', type: 'salad' },
+    { lable: 'Bacon', type: 'bacon' },
+    { lable: 'Cheese', type: 'cheese' },
+    { lable: 'Meat', type: 'meat' },
 ];
 const Buildcontrols = (props) => {
     let totalPrice = props.totalPrice;
     let orderButtonDisabled = true;
-    if (totalPrice>40){
+    if (totalPrice > 40) {
         orderButtonDisabled = false;
     }
     return (
         <div className='BuildControls'>
-            {totalPrice > 40 ? <h4>Total Price: {totalPrice}</h4>: <h4>Base Price: {totalPrice}</h4>}
+            {totalPrice > 40 ? <h4>Total Price: {totalPrice}</h4> : <h4>Base Price: {totalPrice}</h4>}
             {controls.map(el =>
-                <BuildControl 
-                    key={el.lable} 
+                <BuildControl
+                    key={el.lable}
                     lable={el.lable}
-                    added={()=>props.ingredientAdded(el.type)}
+                    added={() => props.ingredientAdded(el.type)}
                     removed={() => props.ingredientRemoved(el.type)}
                     disabled={props.disabled[el.type]}
-                    purchable={props.purchable}/>
+                    purchable={props.purchable} />
             )}
-            <br/><br/>
+            <br /><br />
             <button className='OrderButton' disabled={orderButtonDisabled} onClick={props.purchasingDecision}>ORDER NOW</button>
             {/* <button className='OrderButton' disabled={!props.purchable}>ORDER NOW</button> */}
-            <br/><br/>
+            <br /><br />
         </div>
     );
 }

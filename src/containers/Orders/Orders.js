@@ -18,9 +18,7 @@ class Orders extends Component {
                         id: key
                     })
                 }
-                console.log(loadedOrders);
                 this.setState({ orders: loadedOrders, loading: false })
-                console.log(this.state.orders)
             })
             .catch(errorCallBack => {
                 this.setState({ loading: false })

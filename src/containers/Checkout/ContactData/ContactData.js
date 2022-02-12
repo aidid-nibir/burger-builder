@@ -3,6 +3,7 @@ import Button from '../../../components/UI/Button/Button';
 import axios from '../../../axios-order';
 import Spinner from '../../../components/UI/Spinner/Spinner'
 import Input from '../../../components/UI/Input/Input';
+import { connect } from 'react-redux'
 import './ContactData.css'
 class Contactdata extends Component {
     state = {
@@ -105,14 +106,13 @@ class Contactdata extends Component {
             orderFormData[orderDataElement] = this.state.orderForm[orderDataElement].value;
         }
         const finalOrderData = {
-            ingredients: this.props.ingredient,
+            ingredients: this.props.ing,
             price: this.props.price,
             orderData: orderFormData
 
         }
         axios.post('/orders.json', finalOrderData)
             .then(successCallBack => {
-                console.log(finalOrderData);
                 this.setState({ loading: false, purchasing: false });
                 this.props.history.push('/');
             })
@@ -128,9 +128,6 @@ class Contactdata extends Component {
         if (rules.minLength) {
             isValid = (value.length >= rules.minLength) && (value.length <= rules.maxLength);
         }
-        // if (rules.maxLength) {
-        //     isValid = (value.length <= rules.maxLength) && isValid;
-        // }
         return isValid;
     }
     inputChangeHandler = (event, inputIdentifier) => {
@@ -192,4 +189,11 @@ class Contactdata extends Component {
     }
 }
 
-export default Contactdata;
+const mapStateToProps = (state) => {
+    return {
+        ing: state.ingredient,
+        price: state.totalPrice
+    }
+}
+
+export default connect(mapStateToProps)(Contactdata);

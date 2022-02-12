@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import './NavigationItems.css'
 
 const Navigationitems = (props) => {
-    console.log(props);
     return (
         <ul className='NavigationItems'>
             <li className='Items'><NavLink exact activeClassName='my-active' to="/">Burger Builder</NavLink></li>

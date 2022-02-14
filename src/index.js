@@ -6,10 +6,17 @@ import reportWebVitals from './reportWebVitals';
 // import { render } from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducer from './Store/Reducers';
+import { createStore, applyMiddleware, compose } from 'redux';
+import reducer from './Store/Reducers/BurgerBuilderReducers';
+import thunk from 'redux-thunk';
 // import Checkout from './containers/Checkout/Checkout';
-const store = createStore(reducer);
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(reducer, composeEnhancers(
+  applyMiddleware(thunk)
+));
+
 const app = (
   <Provider store={store}>
     <BrowserRouter>

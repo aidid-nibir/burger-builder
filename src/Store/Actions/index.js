@@ -3,7 +3,7 @@ export {
     removeIngredient,
     setIngredient,
     setIngredientFailed,
-    getIngredient
+    getIngredient,
 } from './BurgerBuilderAction'
 
 export {

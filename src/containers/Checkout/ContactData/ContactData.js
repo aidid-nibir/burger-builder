@@ -97,8 +97,8 @@ class Contactdata extends Component {
                 valid: false
             }
         },
-        fullFormValidation: false,
-        loading: false
+        fullFormValidation: false
+        // loading: false
     }
     orderHandler = (event) => {
         event.preventDefault();
@@ -110,7 +110,8 @@ class Contactdata extends Component {
         const finalOrderData = {
             ingredients: this.props.ing,
             price: this.props.price,
-            orderData: orderFormData
+            orderData: orderFormData,
+            historyData: this.props.history
 
         }
         this.props.onPurchaseBurger(finalOrderData)
@@ -172,7 +173,7 @@ class Contactdata extends Component {
                 </div>
 
             </form>);
-        if (this.state.loading) {
+        if (this.props.loading) {
             form = <Spinner />;
         }
         return (
@@ -186,8 +187,9 @@ class Contactdata extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        ing: state.ingredient,
-        price: state.totalPrice
+        ing: state.BurgerBuilderReducers.ingredient,
+        price: state.BurgerBuilderReducers.totalPrice,
+        loading: state.ReducerOrder.loading
     }
 }
 const mapDispatchToProps = (dispatch) => {

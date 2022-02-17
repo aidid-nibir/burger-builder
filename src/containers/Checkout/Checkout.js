@@ -3,8 +3,8 @@ import Checkoutsummary from '../../components/CheckoutSummary/CheckoutSummary';
 import Contactdata from './ContactData/ContactData';
 import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
-import * as actionsTypes from '../../Store/Actions/index'
-import { Redirect } from 'react-router-dom';
+// import * as actionsTypes from '../../Store/Actions/index'
+// import { Redirect } from 'react-router-dom';
 class Checkout extends Component {
     continueCheckoutHandler = () => {
         this.props.history.replace('/checkout/contact-data');
